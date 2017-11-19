@@ -1,50 +1,60 @@
+import copy
 def move_white(board, undo, redo, undo_move, redo_move):
+	valid = 0
+	moved = 0
 	while True:
 		if undo_move == 0:
+			board2 = copy.deepcopy(board)
+			undo.insert(0, board2)
+			break
+		else:
+			break
+	while undo_move == 1:
+		re = input("Y to redo, N to continue: ")
+		if re == "N" or re == "n":
+			moved = 0
+			break
+		if re == "Y" or re == "y":
+			board = redo[0]
+			del redo[0]
+			valid = 1
+			moved = 1
+			redo_move == 1
 			undo.insert(0, board)
-		if undo_move == 1:
-			re = input("Y to redo, N to continue: ")
-			if re == "N" or re == "n":
-				moved = 0
+			if len(redo) == 0:
+				undo_move = 0
 				break
-			if re == "Y" or re == "y":
-				board = redo[0]
-				del redo[0]
-				valid = 1
-				moved = 1
-				redo_move == 1
-				undo.insert(0, board)
-				if len(redo) == 0:
-					undo_move = 0
-				for i in board:
-					print(i)
-					break
-			else:
-				print ("Please enter y or n")
-				continue
+		else:
+			print ("Please enter y or n")
+			continue
 		if len(undo) > 1:
-			choice = input("Y to undo, N to continue?: ")
-			if choice == "Y" or choice == "y":
-				redo.insert(0, board)
-				board = undo[0]
-				del undo [0]
-				valid = 1
-				moved = 1
-				undo_move = 1
-				for i in board:
-					print(i)
-				break	 
-			if choice == "n" or choice == "N":
-				moved = 0
+			board3 = copy.deepcopy(board)
+			u(board, undo, redo, undo_move, moved, valid)
+			if board == board3:
 				break
 			else:
-				print ("Please enter Y or N")
-				continue
+				moved = 1
+				valid = 1
+				undo_move = 1
+				break
+	while undo_move == 0:
+		if len(undo) > 1:
+			board3 = copy.deepcopy(board)
+			u(board, undo, redo, undo_move, moved, valid)
+			if board == board3:
+				break
+			else:
+				moved = 1
+				valid = 1
+				undo_move = 1
+				break
+		else:
+			break
 	while moved == 0:
 		coord_y = int(input("Enter Column of piece: "))		
 		coord_x = int(input("Enter Row of piece: "))
 		if board[coord_y][coord_x] == "W" or board[coord_y][coord_x] == "w":
-			valid = 0  
+			valid = 0 
 			redo.clear()
 			break	
 		else:
@@ -68,55 +78,65 @@ def move_white(board, undo, redo, undo_move, redo_move):
 		else:
 			break
 	acca = 0
-	for i in board[8]:
+	for i in board2[8]:
 		if i == "w":
-			board[8][acca] = "W"
+			board2[8][acca] = "W"
 		acca = acca + 1
 	for i in board:
 		print(i)
 
+
 def move_black(board, undo, redo, undo_move, redo_move):
+	valid = 0
+	moved = 0
 	while True:
 		if undo_move == 0:
+			board2 = copy.deepcopy(board)
+			undo.insert(0, board2)
+			break
+		else:
+			break
+	while undo_move == 1:
+		re = input("Y to redo, N to continue: ")
+		if re == "N" or re == "n":
+			moved = 0
+			continue
+		if re == "Y" or re == "y":
+			board = redo[0]
+			redo.pop[0]
+			valid = 1
+			moved = 1
+			redo_move == 0
 			undo.insert(0, board)
-		if undo_move == 1:
-			re = input("Y to redo, N to continue: ")
-			if re == "N" or re == "n":
-				moved = 0
-				continue
-			if re == "Y" or re == "y":
-				board = redo[0]
-				redo.pop[0]
-				valid = 1
-				moved = 1
-				redo_move == 0
-				undo.insert(0, board)
-				if len(redo) == 0:
-					undo_move = 1
-				for i in board:
-					print(i)
-					break
-			else:
-				print ("Please enter y or n")
-				continue 
-		if len(undo) > 1:
-			choice = input("Y to undo, N to continue?: ")
-			if choice == "Y" or choice == "y":
-				redo.insert(0, board)
-				board = undo[0]
-				del undo[0]
-				valid = 1
-				moved = 1
+			if len(redo) == 0:
 				undo_move = 1
-				for i in board:
-					print(i)
 				break
-			if choice == "n" or "N":
-				moved = 0
+		else:
+			print ("Please enter y or n")
+			continue
+		if len(undo) > 0:
+			board3 = copy.deepcopy(board)
+			u(board, undo, redo, undo_move, moved, valid)
+			if board == board3:
 				break
 			else:
-				print ("Please enter Y or N")	 
-				continue
+				moved = 1
+				valid = 1
+				undo_move = 1
+				break
+	while undo_move == 0:
+		if len(undo) > 0:
+			print("A")
+			board4 = copy.deepcopy(board)
+			u(board, undo, redo, undo_move, moved, valid)
+			if board == board4:
+				print("L")
+				break
+			else:
+				moved = 1
+				valid = 1
+				undo_move = 1
+				break
 	while moved == 0:
 		coord_y = int(input("Enter Column of piece: "))		
 		coord_x = int(input("Enter Row of piece: "))
@@ -146,9 +166,9 @@ def move_black(board, undo, redo, undo_move, redo_move):
 	for i in board[1]:
 		if i == "b":
 			board[1][acca] = "B"
-		acca = acca + 1
+			acca = acca + 1
 	for i in board:
-		print(i)	
+		print(i)
 
 def force_white(board):
 	for i in range (8):
@@ -217,6 +237,22 @@ def force_black(board):
 					board[i][j] = " "
 					board[i - 1][j + 1] = " "
 					board[i - 2][j + 2] = "B" 
+
+def u(board, undo, redo, undo_move, moved, valid):
+	while True:
+		choice = input("Y to undo, N to continue?: ")
+		if choice == "Y" or choice == "y":
+			redo.insert(0, board)
+			for i in range (8):
+				for j in range(8):
+					board[i][j] = undo[1][i][j]
+			del undo[0]
+			break
+		if choice == "n" or "N":
+			break
+		else:
+			print ("Please enter Y or N") 
+			continue
 """board2 = board
 for i in range(8):
 for j in range(8):
