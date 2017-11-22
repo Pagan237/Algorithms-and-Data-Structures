@@ -12,6 +12,7 @@ undo = []
 redo = []
 undo_move = 0
 redo_move = 0
+moved = 0
 for i in board:
 	print(i)
 def init():
@@ -21,7 +22,7 @@ def init():
 		if white != 0:
 			black = 0
 			white = 0
-			lib.move_white(board, undo, redo, undo_move, redo_move)
+			lib.move_white(board, undo, redo)
 			for i in range (8):
 				for j in range(8):
 					if board[i][j] == "b" or board[i][j] == "B":
@@ -30,7 +31,7 @@ def init():
 				print("WHITE WINS")
 				break
 			else:
-				lib.move_black(board, undo, redo, undo_move, redo_move)
+				lib.move_black(board, undo, redo)
 				for i in range(8):
 					for j in range(8):
 						if board[i][j] == "w" or board[i][j] == "W":
